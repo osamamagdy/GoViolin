@@ -3,3 +3,7 @@ Dockerfile
 .dockerignore
 
 vendor/
+
+Jenkinsfile
+
+.gitignore

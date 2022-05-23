@@ -1,14 +1,14 @@
 package main
 
 import (
-	  "testing"
-    "net/http"
-		"net/http/httptest"
-		"github.com/stretchr/testify/assert"
-		"net/url"
-		"fmt"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"testing"
 
-	)
+	"github.com/stretchr/testify/assert"
+)
 
 type TD struct {
 	Data     string
@@ -37,61 +37,59 @@ func TestSharpToS(t *testing.T) {
 }
 
 func TestScalePage(t *testing.T) {
-    // Create a request to pass to handler
-    r, err := http.NewRequest("GET", "http://localhost:8080/scale", nil)
-    if err != nil {
-        t.Fatal(err)
-    }
+	// Create a request to pass to handler
+	r, err := http.NewRequest("GET", "http://localhost:8080/scale", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-    // Create a new responserecorder (which satisfies http.ResponseWriter) to record the response
-    rr := httptest.NewRecorder()
-    handler := http.HandlerFunc(Scale)
+	// Create a new responserecorder (which satisfies http.ResponseWriter) to record the response
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(Scale)
 
-    // Handlers satisfy http.Handler, so can call their ServeHTTP method directly to pass in the request and responserecorder.
-    handler.ServeHTTP(rr, r)
+	// Handlers satisfy http.Handler, so can call their ServeHTTP method directly to pass in the request and responserecorder.
+	handler.ServeHTTP(rr, r)
 
-		// assert status code of response recorder is OK
-    assert.Equal(t, rr.Code, http.StatusOK, "HandlerFunc(Scale) returned wrong status code: got %v want %v", rr.Code, http.StatusOK)
+	// assert status code of response recorder is OK
+	assert.Equal(t, rr.Code, http.StatusOK, "HandlerFunc(Scale) returned wrong status code: got %v want %v", rr.Code, http.StatusOK)
 }
 
-func TestSetRadioButtons(t *testing.T){
+func TestSetRadioButtons(t *testing.T) {
 	// Generate the values for 1 octave C major scale so can pass these values to pass to handler
-    form := url.Values{}
-    form.Set("Key", "C")
-    form.Add("Octave", "1")
-		form.Add("ScaleArp", "Scale")
-		form.Add("Pitch", "Major")
+	form := url.Values{}
+	form.Set("Key", "C")
+	form.Add("Octave", "1")
+	form.Add("ScaleArp", "Scale")
+	form.Add("Pitch", "Major")
 
 	// url.Values is a map[string][]string
 	// url.Values{"Key": {"C"}, "Octave": {"1"},"ScaleArp": {"Scale"}, "Pitch": {"Major"}}
 
-    // Create a new POST request with no body
-	  r, err := http.NewRequest("POST", "http://localhost:8080/scaleshow", nil)
-    if err != nil {
-      	t.Fatal(err)
-    }
+	// Create a new POST request with no body
+	r, err := http.NewRequest("POST", "http://localhost:8080/scaleshow", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
+	// r.PostForm is currently an empty map
+	fmt.Println(r.PostForm)
+	// Set r.PostForm to the url.Values that will be passed to the form
+	r.PostForm = form
 
-	  // r.PostForm is currently an empty map
-	   fmt.Println(r.PostForm)
-		// Set r.PostForm to the url.Values that will be passed to the form
-    r.PostForm = form
+	// create a new responserecorder
+	rr := httptest.NewRecorder()
 
-    // create a new responserecorder
-		rr := httptest.NewRecorder()
+	// create a handler which is set to the handler function that is being tested
+	handler := http.HandlerFunc(ScaleShow)
 
-    // create a handler which is set to the handler function that is being tested
-    handler := http.HandlerFunc(ScaleShow)
+	// Get the handler to serve the request storing result in the responserecorder
+	handler.ServeHTTP(rr, r)
 
-    // Get the handler to serve the request storing result in the responserecorder
-		handler.ServeHTTP(rr, r)
+	fmt.Println(rr.Body)
+	fmt.Println(rr.Code)
+	fmt.Println(rr.HeaderMap)
+	fmt.Println(rr.Flushed)
 
-
-    fmt.Println(rr.Body)
-    fmt.Println(rr.Code)
-		fmt.Println(rr.HeaderMap)
-		fmt.Println(rr.Flushed)
-
-		assert.Equal(t, rr.Code, http.StatusOK, "HandlerFunc(Scaleshow) returned wrong status code: got %v want %v", rr.Code, http.StatusOK)
+	assert.Equal(t, rr.Code, http.StatusOK, "HandlerFunc(Scaleshow) returned wrong status code: got %v want %v", rr.Code, http.StatusOK)
 
 }
