@@ -10,7 +10,7 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-RUN go build -v -o /usr/local/bin/app .
+RUN go build -o /usr/local/bin/app .
 
 #This is mainly for doucmentation, to remember what port the app is running on.
 EXPOSE 8080
