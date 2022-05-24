@@ -6,27 +6,27 @@ pipeline {
 
     stages {
 
-        stage('run go tests') {
-            steps {
-                echo "========Testing Go files ========"
-                sh """
-                    go mod vendor
-                    go mod download
-                    go mod verify
-                    go test ./...
-                """    
-            }
-            post {
-                success {
-                    echo "========Go tests success ========"
-                    // slackSend (color:"#00FF00", message: " All tests passed")
-                }
-                failure {
-                    echo "========Go tests failed========"
-                    // slackSend (color:"#FF0000", message: "Some tests failed")
-                }
-           }
-        }
+        // stage('run go tests') {
+        //     steps {
+        //         echo "========Testing Go files ========"
+        //         sh """
+        //             go mod vendor
+        //             go mod download
+        //             go mod verify
+        //             go test ./...
+        //         """    
+        //     }
+        //     post {
+        //         success {
+        //             echo "========Go tests success ========"
+        //             // slackSend (color:"#00FF00", message: " All tests passed")
+        //         }
+        //         failure {
+        //             echo "========Go tests failed========"
+        //             // slackSend (color:"#FF0000", message: "Some tests failed")
+        //         }
+        //    }
+        // }
 
 
 
