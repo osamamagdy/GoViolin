@@ -3,3 +3,7 @@
 
 *.exe
 GoViolin
+
+vendor
+
+!vendor/modules.txt
