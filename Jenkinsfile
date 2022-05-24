@@ -5,22 +5,6 @@ pipeline {
     }
 
     stages {
-        stage("fetch"){
-            steps{
-                echo "========Executing Fetch========"
-                git branch: "master", url: "https://github.com/osamamagdy/GoViolin/_git/GoViolin"
-            }
-            post{
-                success{
-                    echo "=======fetch executed successfully========"
-                }
-                failure{
-                    echo "========fetch execution failed========"
-                    slackSend (color:"#FF0000", message: "Failed to pull code-base from github")
-
-                }
-            }
-        }
 
         stage('run go tests') {
             steps {
