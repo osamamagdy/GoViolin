@@ -25,6 +25,9 @@ pipeline {
             steps {
                 echo "========Testing Go files ========"
                 sh """
+                    go mod vendor
+                    go mod download
+                    go mod verify
                     go test ./...
                 """    
             }
@@ -65,9 +68,13 @@ pipeline {
         stage('docker push') {
             steps {
                 echo "========docker push ========"
+                withCredentials([usernamePassword(credentialsId: 'docker-secret', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                {
                 sh """
+                    docker login -u ${USERNAME} -p ${PASSWORD}
                     docker push $LOGIN_SERVER/goviolin:latest
                 """    
+                }
             }
             post {
                 success {
