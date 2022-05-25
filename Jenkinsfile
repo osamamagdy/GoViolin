@@ -25,11 +25,11 @@ pipeline {
             post {
                 success {
                     echo "========Go tests success ========"
-                    // slackSend (color:"#00FF00", message: " All tests passed")
+                    slackSend (color:"#00FF00", message: " All tests passed")
                 }
                 failure {
                     echo "========Go tests failed========"
-                    // slackSend (color:"#FF0000", message: "Some tests failed")
+                    slackSend (color:"#FF0000", message: "Some tests failed")
                 }
            }
         }
@@ -47,11 +47,11 @@ pipeline {
             post {
                 success {
                     echo "========docker build success ========"
-                    // slackSend (color:"#00FF00", message: "Building Image success")
+                    slackSend (color:"#00FF00", message: "Building Image success")
                 }
                 failure {
                     echo "========docker build failed========"
-                    // slackSend (color:"#FF0000", message: "Building Image failure")
+                    slackSend (color:"#FF0000", message: "Building Image failure")
                 }
            }
         }
@@ -70,11 +70,11 @@ pipeline {
             post {
                 success {
                     echo "========docker push success ========"
-                    // slackSend (color:"#00FF00", message: "Pushing Image success")
+                    slackSend (color:"#00FF00", message: "Pushing Image success")
                 }
                 failure {
                     echo "========docker push failed========"
-                    // slackSend (color:"#FF0000", message: "Pushing Image failure")
+                    slackSend (color:"#FF0000", message: "Pushing Image failure")
                 }
            }
         }
@@ -91,11 +91,14 @@ pipeline {
             post {
                 success {
                     echo "========app is deployed ========"
-                    // slackSend (color:"#00FF00", message: "app is deployed successfully")
+                    slackSend (color:"#00FF00", message: "app is deployed successfully")
+                    mail to: "osamamagdy174@gmail.com",
+                    subject: "GoViolin Email",
+                    body: "A new version of the application has been deployed"
                 }
                 failure {
                     echo "========docker push failed========"
-                    // slackSend (color:"#FF0000", message: "app deployment failure")
+                    slackSend (color:"#FF0000", message: "app deployment failure")
                 }
            }
         }
