@@ -2,14 +2,14 @@ pipeline {
     agent any
     environment{
         LOGIN_SERVER = "osamamagdy"
+        // Ensure the desired Go version is installed
+        root = tool type: 'go', name: 'GO 1.18' //Use GO 1.18 as it is the same used in building docker image
     }
     stages {
 
         stage('run go tests') {
             steps {
                 echo "========Testing Go files ========"
-                // Ensure the desired Go version is installed
-                def root = tool type: 'go', name: 'GO 1.18'
 
                 // Export environment variables pointing to the directory where Go was installed and run steps
                 withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
