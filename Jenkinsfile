@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment{
         LOGIN_SERVER = "osamamagdy"
-        // Ensure the desired Go version is installed
+        //Ensure the desired Go version is installed
         root = tool type: 'go', name: 'GO 1.18' //Use GO 1.18 as it is the same used in building docker image
     }
     stages {
