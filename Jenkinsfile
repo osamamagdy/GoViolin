@@ -3,30 +3,36 @@ pipeline {
     environment{
         LOGIN_SERVER = "osamamagdy"
     }
-
     stages {
 
-        // stage('run go tests') {
-        //     steps {
-        //         echo "========Testing Go files ========"
-        //         sh """
-        //             go mod vendor
-        //             go mod download
-        //             go mod verify
-        //             go test ./...
-        //         """    
-        //     }
-        //     post {
-        //         success {
-        //             echo "========Go tests success ========"
-        //             // slackSend (color:"#00FF00", message: " All tests passed")
-        //         }
-        //         failure {
-        //             echo "========Go tests failed========"
-        //             // slackSend (color:"#FF0000", message: "Some tests failed")
-        //         }
-        //    }
-        // }
+        stage('run go tests') {
+            steps {
+                echo "========Testing Go files ========"
+                // Ensure the desired Go version is installed
+                def root = tool type: 'go', name: 'GO 1.18'
+
+                // Export environment variables pointing to the directory where Go was installed and run steps
+                withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
+                    sh """
+                        go version
+                        go mod vendor
+                        go mod download
+                        go mod verify
+                        go test ./...
+                    """    
+                }
+            }
+            post {
+                success {
+                    echo "========Go tests success ========"
+                    // slackSend (color:"#00FF00", message: " All tests passed")
+                }
+                failure {
+                    echo "========Go tests failed========"
+                    // slackSend (color:"#FF0000", message: "Some tests failed")
+                }
+           }
+        }
 
 
 
