@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goviolin
+  labels:
+    app: goviolin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goviolin
+  template:
+    metadata:
+      labels:
+        app: goviolin
+    spec:
+      containers:
+      - name: goviolin
+        image: osamamagdy/goviolin:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+
+#Blueprint for pods

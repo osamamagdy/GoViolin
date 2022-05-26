@@ -61,8 +61,9 @@ pipeline {
                 echo "========docker push ========"
                 withCredentials([usernamePassword(credentialsId: 'docker-secret', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
                 {
+                    // docker login -u ${USERNAME} -p ${PASSWORD}
                 sh """
-                    docker login -u ${USERNAME} -p ${PASSWORD}
+                    echo ${PASSWORD} | docker login --username ${USERNAME} --password-stdin
                     docker push $LOGIN_SERVER/goviolin:latest
                 """    
                 }
@@ -92,9 +93,7 @@ pipeline {
                 success {
                     echo "========app is deployed ========"
                     slackSend (color:"#00FF00", message: "app is deployed successfully")
-                    mail to: "osamamagdy174@gmail.com",
-                    subject: "GoViolin Email",
-                    body: "A new version of the application has been deployed"
+                    
                 }
                 failure {
                     echo "========docker push failed========"
