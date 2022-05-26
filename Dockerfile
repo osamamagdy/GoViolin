@@ -10,6 +10,9 @@ RUN go mod download && go mod verify
 
 COPY . .
 
+
+#RUN go test ./...
+
 RUN go build -o app .
 
 #This was the guide to use by the official documentation at golang dockerhub repository

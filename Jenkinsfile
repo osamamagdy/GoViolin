@@ -60,7 +60,6 @@ pipeline {
                 echo "========docker push ========"
                 withCredentials([usernamePassword(credentialsId: 'docker-secret', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
                 {
-                    // docker login -u ${USERNAME} -p ${PASSWORD}
                 sh """
                     echo ${PASSWORD} | docker login --username ${USERNAME} --password-stdin
                     docker push $LOGIN_SERVER/goviolin:latest
