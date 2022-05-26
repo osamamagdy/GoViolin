@@ -7,3 +7,6 @@ GoViolin
 vendor
 
 !vendor/modules.txt
+.env
+*.pem
+.terraform

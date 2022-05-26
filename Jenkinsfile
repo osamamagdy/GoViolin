@@ -15,7 +15,6 @@ pipeline {
                 withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
                     sh """
                         go version
-                        go mod vendor
                         go mod download
                         go mod verify
                         go test ./...
