@@ -2,7 +2,7 @@
 
 GoViolin is a web app written in Go that helps with violin practice.
 
-Currently hosted on Heroku at http://3.64.91.117/
+Currently hosted at http://3.64.91.117/
 
 GoViolin allows practice over both 1 and 2 octaves.
 
